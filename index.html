@@ -704,7 +704,7 @@
     }
 
     /* =========================================================
-       6. SECUENCIA CINEMÁTICA FINAL
+       6. SECUENCIA CINEMÁTICA FINAL (RESPONSIVE & MOBILE FIX)
        ========================================================= */
     #final-cinematic-container {
       position: fixed;
@@ -713,7 +713,7 @@
       width: 100vw;
       height: 100vh;
       background-color: #000;
-      z-index: 2000;
+      z-index: 9999;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -734,27 +734,28 @@
       width: 100vw;
       height: 100vh;
       object-fit: cover;
-      z-index: 2001;
+      z-index: 10000;
     }
 
     #final-quote {
       position: absolute;
-      bottom: 50px;
+      bottom: 40px;
       left: 50%;
       transform: translateX(-50%);
-      width: 85%;
+      width: 90%;
       max-width: 850px;
       text-align: center;
       font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
+      font-size: clamp(1rem, 4vw, 1.5rem);
       font-weight: 700;
       color: #38bdf8;
       text-shadow: 0 0 15px #38bdf8, 0 0 30px #0284c7, 0 0 45px #0284c7;
-      z-index: 2002;
+      z-index: 10001;
       opacity: 0;
       transition: opacity 0.8s ease;
       pointer-events: none;
-      line-height: 1.6;
+      line-height: 1.5;
+      padding: 0 10px;
     }
 
     #final-quote.active {
@@ -767,15 +768,17 @@
       left: 50%;
       transform: translate(-50%, -50%);
       font-family: 'Playfair Display', serif;
-      font-size: 3.5rem;
+      font-size: clamp(2.2rem, 8vw, 3.5rem);
       font-weight: 800;
       color: #ffffff;
       text-shadow: 0 0 30px rgba(56, 189, 248, 0.8), 0 0 60px rgba(56, 189, 248, 0.4);
-      z-index: 2003;
+      z-index: 10002;
       opacity: 0;
       pointer-events: none;
       transition: opacity 1s ease;
       text-align: center;
+      padding: 0 15px;
+      width: 100%;
     }
 
     #final-greeting.active {
@@ -807,12 +810,14 @@
       .book-spine-shadow { display: none; }
       .page-body { font-size: 0.92rem; line-height: 1.65; }
       .page-title { font-size: 1.25rem; margin-bottom: 8px; }
-      #final-quote { font-size: 1.05rem; bottom: 30px; width: 90%; }
-      #final-greeting { font-size: 2.4rem; padding: 0 15px; }
+      #final-quote { bottom: 25px; width: 94%; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Audio de Fondo Global en Loop -->
+  <audio id="bg-audio" src="audio.mp3" loop preload="auto"></audio>
 
   <!-- Video 1: Fondo para Pantalla de Inicio -->
   <video id="bg-video-start" class="bg-video-element active" autoplay muted loop playsinline preload="auto">
@@ -945,25 +950,37 @@
 
   <script>
     /* =========================================================
-       CONTROL DE VIDEOS Y REPRODUCCIÓN AUTOMÁTICA
+       CONTROL DE VIDEOS Y AUDIO GLOBAL
        ========================================================= */
     const videoStart = document.getElementById('bg-video-start');
     const videoMenu = document.getElementById('bg-video-menu');
     const overlayStart = document.getElementById('overlay-start');
     const overlayMenu = document.getElementById('overlay-menu');
+    const bgAudio = document.getElementById('bg-audio');
 
     document.addEventListener('DOMContentLoaded', () => {
       [videoStart, videoMenu].forEach(v => {
         if (v) {
           v.muted = true;
-          v.play().catch(e => console.log("Autoplay diferido", e));
+          v.play().catch(e => console.log("Autoplay de video diferido", e));
         }
       });
 
+      // Intento inmediato de reproducción de audio en la pantalla de inicio
+      if (bgAudio) {
+        bgAudio.play().catch(e => {
+          console.log("Autoplay con audio bloqueado por políticas del navegador, esperando primer clic.", e);
+        });
+      }
+
+      // Desbloqueo garantizado con la primera interacción del usuario en la página
       document.addEventListener('click', () => {
         [videoStart, videoMenu].forEach(v => {
           if (v && v.paused) v.play();
         });
+        if (bgAudio && bgAudio.paused) {
+          bgAudio.play().catch(e => console.log("Audio play error:", e));
+        }
       }, { once: true });
     });
 
@@ -972,6 +989,11 @@
       overlayMenu.classList.remove('active');
       videoStart.classList.add('active');
       overlayStart.classList.add('active');
+
+      // Reanudar música de fondo al volver al inicio si está pausada
+      if (bgAudio && bgAudio.paused) {
+        bgAudio.play().catch(e => console.log("Audio play error:", e));
+      }
     }
 
     function showMenuVideo() {
@@ -1446,6 +1468,12 @@
       
       // Manejo cinemático para el Capítulo 5 (Botón Reproducir)
       if (currentChapterIndex === 5) {
+        // Pausar y reiniciar el audio de fondo por completo al reproducir el video final
+        if (bgAudio) {
+          bgAudio.pause();
+          bgAudio.currentTime = 0;
+        }
+
         bookWrapper.classList.remove('open');
 
         setTimeout(() => {
@@ -1531,6 +1559,11 @@
     document.getElementById('btn-start').addEventListener('click', () => {
       AudioEngine.init();
       AudioEngine.playClick();
+
+      // Asegurar reproducción del audio de fondo al hacer clic en Continuar (Inicio)
+      if (bgAudio && bgAudio.paused) {
+        bgAudio.play().catch(e => console.log("Audio play error:", e));
+      }
 
       showMenuVideo();
 
