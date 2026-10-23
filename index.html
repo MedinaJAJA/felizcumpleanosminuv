@@ -810,7 +810,18 @@
       .book-spine-shadow { display: none; }
       .page-body { font-size: 0.92rem; line-height: 1.65; }
       .page-title { font-size: 1.25rem; margin-bottom: 8px; }
-      #final-quote { bottom: 25px; width: 94%; }
+
+      /* Subtítulos neón posicionados en el tercio superior de la pantalla en móviles */
+      #final-quote {
+        position: absolute;
+        top: 12vh;
+        bottom: auto;
+        left: 5%;
+        right: 5%;
+        transform: none;
+        width: 90%;
+        font-size: clamp(0.95rem, 3.8vw, 1.25rem);
+      }
     }
   </style>
 </head>
@@ -1045,7 +1056,7 @@
       {
         id: 5,
         header: "Capítulo 5",
-        title: "(sin título)",
+        title: "23 de octubre",
         text: "Cariño, un día como este, un 23 de octubre hace 18 años, nació alguien muy especial para mí, nació mi persona favorita, la chica y mujer que más amo en esta vida, sí, hablo de ti, Feliz cumpleaños querida, feliz 18 años de edad, oficialmente ya eres mayor de edad jsjsjs, espero que de verdad te la pases súper bien el día de hoy, que te diviertas muchísimo, pásatela bien con tu familia, especialmente con tu hermana, come, diviértete, haz todo lo que quieras, hoy es tu día. Agradezco mucho haberme convertido en una pequeña parte de tu vida, espero así sea siempre jsjsjs, Feliz cumpleaños a ti, ya queremos pastel, ya queremos pastel KAJADJ, ay dios, de verdad, te amo mucho, demasiado, espero seguir estando en tu vida, y estar a tu lado viéndote crecer, superar obstáculos, avanzar hacia la siguiente etapa de tu vida, ser profesional y hacer todo lo que siempre has querido, ya eres toda una mujerona hecha y derecha, ¿eh? No quiero alargar todo esto de más para evitar aburrirte, te amo, te amo demasiado, mucho más de lo que me amo a mí, deseo de todo corazón que encuentres a personas que te quieran y amen, claro, no tanto como yo porque, este, sí, y ajá dea se ponía celoso (soy ese), feliz cumpleaños por 999 veces jsjsjs, te amo muchísimo, mi Altair.",
         unlocked: false
       }
