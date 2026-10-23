@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feliz Cumpleaños Mi Pequeña Nuv</title>
+  <!-- Google Fonts: Playfair Display y Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =========================================================
+       1. VARIABLES GLOBALES & RESET
+       ========================================================= */
+    :root {
+      --bg-dark: #050811;
+      --bg-card-locked: rgba(11, 17, 32, 0.85);
+      --card-border-locked: #1e293b;
+      --accent-blue: #38bdf8;
+      --accent-glow: rgba(56, 189, 248, 0.5);
+      --text-main: #f1f5f9;
+      --text-muted: #64748b;
+      --paper-bg: #fbf0d9;
+      --paper-text: #2c1810;
+      --paper-sub: #8c6d58;
+      --shadow-color: rgba(0, 0, 0, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body, html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+    }
+
+    /* VIDEOS DE FONDO Y OVERLAYS */
+    .bg-video-element {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+      display: block;
+    }
+
+    .bg-video-element.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .video-overlay-layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 15, 0.55);
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+
+    .video-overlay-layer.active {
+      opacity: 1;
+    }
+
+    /* Fondo Canvas Transparente (Estrellas flotantes) */
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Capa de Fade Global a Negro */
+    #global-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1000;
+      transition: opacity 0.8s ease;
+    }
+
+    #global-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* Contenedor Principal de Pantallas */
+    .app-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .screen {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+      padding: 20px;
+    }
+
+    .screen.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: scale(1);
+    }
+
+    .screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.95);
+    }
+
+    /* =========================================================
+       2. PANTALLA 1: INICIO
+       ========================================================= */
+    #start-screen {
+      text-align: center;
+      z-index: 4;
+    }
+
+    .welcome-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #a5f3fc 50%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2.5rem;
+      text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+      animation: pulseGlow 4s infinite alternate ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0% { filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.2)); }
+      100% { filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.6)); }
+    }
+
+    .btn-glow {
+      position: relative;
+      padding: 16px 48px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0f172a;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      outline: none;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .btn-glow:hover {
+      background: #ef4444;
+      color: #38bdf8;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 0 35px rgba(239, 68, 68, 0.8), 0 0 50px rgba(56, 189, 248, 0.6);
+    }
+
+    .btn-glow:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    /* =========================================================
+       3. PANTALLA 2: MENÚ DE CAPÍTULOS
+       ========================================================= */
+    #menu-screen {
+      justify-content: flex-start;
+      overflow-y: auto;
+      padding: 60px 20px 40px 20px;
+    }
+
+    .btn-back-top {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-main);
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 30px;
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-back-top:hover {
+      background: var(--accent-blue);
+      color: #0f172a;
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 20px var(--accent-glow);
+      transform: translateX(-3px);
+    }
+
+    .menu-header {
+      text-align: center;
+      margin-bottom: 35px;
+      margin-top: 20px;
+    }
+
+    .menu-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      color: #f8fafc;
+      letter-spacing: 1px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    }
+
+    .chapters-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      padding-bottom: 30px;
+    }
+
+    .chapter-card {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 24px;
+      border-radius: 16px;
+      background: var(--bg-card-locked);
+      border: 1px solid var(--card-border-locked);
+      color: var(--text-muted);
+      backdrop-filter: blur(6px);
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: not-allowed;
+      overflow: hidden;
+    }
+
+    .chapter-card.unlocked {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.85) 100%);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: var(--text-main);
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(56, 189, 248, 0.1);
+    }
+
+    .chapter-card.unlocked:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: var(--accent-blue);
+      box-shadow: 0 8px 30px rgba(56, 189, 248, 0.3), inset 0 0 20px rgba(56, 189, 248, 0.2);
+    }
+
+    .chapter-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chapter-number {
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .chapter-card.unlocked .chapter-number {
+      color: var(--accent-blue);
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    .chapter-status-icon {
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.3);
+      transition: all 0.5s ease;
+    }
+
+    .chapter-card.unlocking {
+      animation: unlockGlow 1.2s forwards cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .chapter-card.unlocking .chapter-status-icon {
+      animation: lockPop 0.8s ease forwards;
+    }
+
+    @keyframes unlockGlow {
+      0% {
+        background: var(--bg-card-locked);
+        border-color: var(--card-border-locked);
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 35px var(--accent-glow);
+      }
+      100% {
+        background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.85) 100%);
+        border-color: rgba(56, 189, 248, 0.4);
+        transform: scale(1);
+      }
+    }
+
+    @keyframes lockPop {
+      0% { transform: scale(1) rotate(0deg); }
+      40% { transform: scale(1.4) rotate(-15deg); }
+      80% { transform: scale(1.2) rotate(10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* =========================================================
+       4. PANTALLA 3: VISTA DEL LIBRO 3D (SINCRONIZACIÓN AUTOMÁTICA)
+       ========================================================= */
+    #book-screen {
+      perspective: 2500px;
+    }
+
+    .book-scene {
+      position: relative;
+      width: 92%;
+      max-width: 1000px;
+      height: 75vh;
+      max-height: 580px;
+      transform-style: preserve-3d;
+    }
+
+    .book-wrapper {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+    }
+
+    /* Libro Abierto (Páginas Interiores): Oculto por defecto, se revela automáticamente con .open */
+    .book-spread {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      background: #1c1007;
+      border-radius: 10px;
+      box-shadow: 0 35px 80px var(--shadow-color);
+      overflow: hidden;
+      z-index: 10;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.6s ease 0.5s, visibility 0.6s ease 0.5s;
+    }
+
+    .book-wrapper.open .book-spread {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Portada 3D del Libro */
+    .book-cover-single {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+      border-radius: 0 12px 12px 0;
+      box-shadow: 15px 25px 50px var(--shadow-color), inset 0 0 20px rgba(255,255,255,0.08);
+      border: 2px solid rgba(56, 189, 248, 0.4);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      transform-origin: left; 
+      transform-style: preserve-3d;
+      transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+      cursor: pointer;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform: rotateY(0deg);
+    }
+
+    .book-cover-single::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 3px;
+      height: 100%;
+      background: rgba(56, 189, 248, 0.5);
+    }
+
+    .book-wrapper.open .book-cover-single {
+      transform: rotateY(-180deg);
+      pointer-events: none;
+    }
+
+    .cover-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      color: #38bdf8;
+      text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+      margin-bottom: 12px;
+      text-align: center;
+      padding: 0 20px;
+      backface-visibility: hidden;
+    }
+
+    .cover-subtitle {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      backface-visibility: hidden;
+    }
+
+    /* Páginas Individuales (Izquierda y Derecha) */
+    .book-page-sheet {
+      flex: 1;
+      height: 100%;
+      background-color: var(--paper-bg);
+      background-image: radial-gradient(#e5d5b7 1px, transparent 1px);
+      background-size: 20px 20px;
+      padding: 30px 40px;
+      display: flex;
+      flex-direction: column;
+      color: var(--paper-text);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .book-page-sheet.left {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      box-shadow: inset -20px 0 30px rgba(0,0,0,0.07);
+      border-right: 1px solid rgba(140, 109, 88, 0.25);
+    }
+
+    .book-page-sheet.right {
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+      box-shadow: inset 20px 0 30px rgba(0,0,0,0.07);
+    }
+
+    /* Capa animada 3D para la transición de paso de hoja (Page Flip) */
+    .page-flip-overlay {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background-color: var(--paper-bg);
+      background-image: radial-gradient(#e5d5b7 1px, transparent 1px);
+      background-size: 20px 20px;
+      padding: 30px 40px;
+      display: flex;
+      flex-direction: column;
+      color: var(--paper-text);
+      transform-origin: left;
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.645, 0.045, 0.355, 1);
+      z-index: 50;
+      box-shadow: -15px 0 30px rgba(0,0,0,0.25);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .page-flip-overlay.flipping {
+      opacity: 1;
+      transform: rotateY(-180deg);
+    }
+
+    /* Sombra del lomo central */
+    .book-spine-shadow {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 36px;
+      height: 100%;
+      transform: translateX(-50%);
+      background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.18), rgba(0,0,0,0));
+      z-index: 20;
+      pointer-events: none;
+    }
+
+    .page-header {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--paper-sub);
+      border-bottom: 1px solid rgba(140, 109, 88, 0.2);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .page-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--paper-text);
+      margin-bottom: 12px;
+    }
+
+    .typing-hint {
+      font-size: 0.72rem;
+      color: var(--paper-sub);
+      font-style: italic;
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    .page-body {
+      flex: 1;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      font-weight: 400;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      padding-right: 5px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--paper-sub) transparent;
+    }
+
+    .page-body::-webkit-scrollbar {
+      width: 4px;
+    }
+    .page-body::-webkit-scrollbar-thumb {
+      background-color: var(--paper-sub);
+      border-radius: 4px;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background-color: var(--paper-text);
+      vertical-align: middle;
+      margin-left: 2px;
+      animation: blink 0.7s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .page-footer {
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 40px;
+    }
+
+    .nav-arrows-container {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-arrow {
+      background: rgba(44, 24, 16, 0.1);
+      border: 1px solid var(--paper-sub);
+      color: var(--paper-text);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: bold;
+      transition: all 0.2s ease;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .btn-arrow.active {
+      opacity: 1;
+      pointer-events: auto;
+      background: rgba(44, 24, 16, 0.15);
+    }
+
+    .btn-arrow.active:hover {
+      background: var(--paper-sub);
+      color: #fbf0d9;
+    }
+
+    .btn-next-page-text {
+      background: rgba(44, 24, 16, 0.1);
+      border: 1px solid var(--paper-sub);
+      color: var(--paper-text);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.2s ease;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .btn-next-page-text.active {
+      opacity: 1;
+      pointer-events: auto;
+      background: var(--paper-sub);
+      color: #fbf0d9;
+    }
+
+    .page-number-indicator {
+      font-size: 0.8rem;
+      color: var(--paper-sub);
+      font-weight: 500;
+    }
+
+    .btn-page-action {
+      padding: 8px 22px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f8fafc;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 20px;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
+      pointer-events: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .btn-page-action.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    .btn-page-action:hover {
+      background: var(--accent-blue);
+      color: #0f172a;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    /* Estilo especial para botón Reproducir en Capítulo 5 */
+    .btn-page-action.btn-reproducir-final {
+      background: linear-gradient(135deg, #ef4444, #f43f5e);
+      border-color: #fda4af;
+      box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+    }
+
+    .btn-page-action.btn-reproducir-final:hover {
+      background: #38bdf8;
+      color: #0f172a;
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.8);
+    }
+
+    /* =========================================================
+       6. SECUENCIA CINEMÁTICA FINAL
+       ========================================================= */
+    #final-cinematic-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000;
+      z-index: 2000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    #final-cinematic-container.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    #final-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 2001;
+    }
+
+    #final-quote {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 85%;
+      max-width: 850px;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #38bdf8;
+      text-shadow: 0 0 15px #38bdf8, 0 0 30px #0284c7, 0 0 45px #0284c7;
+      z-index: 2002;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+      line-height: 1.6;
+    }
+
+    #final-quote.active {
+      opacity: 1;
+    }
+
+    #final-greeting {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 0 30px rgba(56, 189, 248, 0.8), 0 0 60px rgba(56, 189, 248, 0.4);
+      z-index: 2003;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+      text-align: center;
+    }
+
+    #final-greeting.active {
+      opacity: 1;
+    }
+
+    /* =========================================================
+       7. ADAPTABILIDAD MÓVIL (MEDIA QUERIES @media max-width: 768px)
+       ========================================================= */
+    @media (max-width: 768px) {
+      .welcome-title { font-size: 2.1rem; padding: 0 10px; }
+      .btn-glow { padding: 14px 36px; font-size: 1.05rem; }
+      .menu-header h2 { font-size: 2.2rem; }
+      .btn-back-top { top: 15px; left: 15px; padding: 8px 14px; font-size: 0.85rem; }
+      .chapter-card { padding: 14px 18px; }
+      .chapter-number { font-size: 1rem; }
+      
+      .book-scene { height: 86vh; width: 96%; max-height: 640px; }
+      .book-cover-single { width: 100%; border-radius: 12px; }
+      .book-spread { flex-direction: column; }
+      .book-page-sheet { padding: 20px 22px; display: none; }
+      .book-page-sheet.mobile-active { display: flex; }
+      
+      .book-page-sheet.left, .book-page-sheet.right {
+        border-radius: 12px;
+        border-right: none;
+        border-bottom: none;
+      }
+      .book-spine-shadow { display: none; }
+      .page-body { font-size: 0.92rem; line-height: 1.65; }
+      .page-title { font-size: 1.25rem; margin-bottom: 8px; }
+      #final-quote { font-size: 1.05rem; bottom: 30px; width: 90%; }
+      #final-greeting { font-size: 2.4rem; padding: 0 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Video 1: Fondo para Pantalla de Inicio -->
+  <video id="bg-video-start" class="bg-video-element active" autoplay muted loop playsinline preload="auto">
+    <source src="video-menu.mp4" type="video/mp4">
+  </video>
+  <div id="overlay-start" class="video-overlay-layer active"></div>
+
+  <!-- Video 2: Fondo para Menú de Capítulos -->
+  <video id="bg-video-menu" class="bg-video-element" autoplay muted loop playsinline preload="auto">
+    <source src="video-menu (2).mp4" type="video/mp4">
+  </video>
+  <div id="overlay-menu" class="video-overlay-layer"></div>
+
+  <!-- Fondo Canvas Transparente (Estrellas flotantes) -->
+  <canvas id="bg-canvas"></canvas>
+
+  <!-- Overlay para la transición "Fade to Black" -->
+  <div id="global-overlay"></div>
+
+  <!-- Contenedor Cinemático Final -->
+  <div id="final-cinematic-container">
+    <video id="final-video" src="doblaje.mp4" playsinline></video>
+    <div id="final-quote">
+      "Anastasia, si anastasia desaparece estoy acabado, Este es mi aire, mi debilidad, y mi arma secreta que me hace el mas fuerte del mundo, Altair, ahora anastasia esta enfrente a mis ojos... (eres tu mi amor, tu eres anastasia)"
+    </div>
+    <div id="final-greeting">Feliz cumpleaños &lt;3</div>
+  </div>
+
+  <!-- App Wrapper -->
+  <div class="app-container">
+
+    <!-- ==========================================
+         PANTALLA 1: INICIO
+         ========================================== -->
+    <section id="start-screen" class="screen active">
+      <h1 class="welcome-title">Feliz cumpleaños mi pequeña nuv</h1>
+      <button id="btn-start" class="btn-glow">Continuar</button>
+    </section>
+
+    <!-- ==========================================
+         PANTALLA 2: MENÚ DE CAPÍTULOS
+         ========================================== -->
+    <section id="menu-screen" class="screen hidden">
+      <button id="btn-back-to-start" class="btn-back-top">
+        <span>←</span> Volver
+      </button>
+
+      <div class="menu-header">
+        <h2>Capítulos</h2>
+      </div>
+
+      <div class="chapters-grid" id="chapters-container"></div>
+    </section>
+
+    <!-- ==========================================
+         PANTALLA 3: LIBRO 3D
+         ========================================== -->
+    <section id="book-screen" class="screen hidden">
+      <div id="book-scene" class="book-scene">
+        
+        <!-- Contenedor general del libro -->
+        <div id="book-wrapper" class="book-wrapper">
+          
+          <!-- Libro Abierto (Páginas Interiores) -->
+          <div id="book-spread" class="book-spread">
+            <div class="book-spine-shadow"></div>
+
+            <!-- Página Izquierda -->
+            <div class="book-page-sheet left mobile-active" id="sheet-left">
+              <div class="page-header">
+                <span id="page-left-header">Prólogo</span>
+                <span class="page-number-indicator" id="num-left">Pág 1</span>
+              </div>
+              <h3 class="page-title" id="page-left-title">El comienzo</h3>
+              <div class="typing-hint">💡 Haz clic en la página para mostrar todo el texto al instante</div>
+              <div class="page-body">
+                <span id="text-left"></span><span id="cursor-left" class="typing-cursor" style="display:none;"></span>
+              </div>
+              <div class="page-footer">
+                <div class="nav-arrows-container">
+                  <button id="btn-prev" class="btn-arrow" title="Página anterior">&lt;</button>
+                </div>
+                <span class="page-number-indicator" id="reading-status-left">Leyendo...</span>
+              </div>
+            </div>
+
+            <!-- Página Derecha -->
+            <div class="book-page-sheet right" id="sheet-right">
+              <div class="page-header">
+                <span id="page-right-header">Continuación</span>
+                <span class="page-number-indicator" id="num-right">Pág 2</span>
+              </div>
+              <div class="typing-hint" style="visibility: hidden;">espaciador</div>
+              <div class="page-body" style="margin-top: 5px;">
+                <span id="text-right"></span><span id="cursor-right" class="typing-cursor" style="display:none;"></span>
+              </div>
+              <div class="page-footer">
+                <button id="btn-continue" class="btn-page-action">Continuar</button>
+                <div class="nav-arrows-container" style="margin-left: auto; gap: 8px;">
+                  <button id="btn-next-page-text" class="btn-next-page-text">Siguiente página ➔</button>
+                  <button id="btn-next" class="btn-arrow" title="Página siguiente">&gt;</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Capa Animada de Paso de Hoja (Page Flip Overlay) -->
+          <div id="page-flip-overlay" class="page-flip-overlay">
+            <div class="page-header">
+              <span>Paso de hoja</span>
+            </div>
+            <div class="page-body" style="margin-top: 15px;">
+              <span id="flip-text-content"></span>
+            </div>
+          </div>
+
+          <!-- Portada Cerrada 3D -->
+          <div id="book-cover" class="book-cover-single">
+            <div class="cover-title" id="cover-title-text">Prólogo</div>
+            <div class="cover-subtitle">Haz clic para abrir</div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script>
+    /* =========================================================
+       CONTROL DE VIDEOS Y REPRODUCCIÓN AUTOMÁTICA
+       ========================================================= */
+    const videoStart = document.getElementById('bg-video-start');
+    const videoMenu = document.getElementById('bg-video-menu');
+    const overlayStart = document.getElementById('overlay-start');
+    const overlayMenu = document.getElementById('overlay-menu');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      [videoStart, videoMenu].forEach(v => {
+        if (v) {
+          v.muted = true;
+          v.play().catch(e => console.log("Autoplay diferido", e));
+        }
+      });
+
+      document.addEventListener('click', () => {
+        [videoStart, videoMenu].forEach(v => {
+          if (v && v.paused) v.play();
+        });
+      }, { once: true });
+    });
+
+    function showStartVideo() {
+      videoMenu.classList.remove('active');
+      overlayMenu.classList.remove('active');
+      videoStart.classList.add('active');
+      overlayStart.classList.add('active');
+    }
+
+    function showMenuVideo() {
+      videoStart.classList.remove('active');
+      overlayStart.classList.remove('active');
+      videoMenu.classList.add('active');
+      overlayMenu.classList.add('active');
+    }
+
+    /* =========================================================
+       DATOS DE CAPÍTULOS Y CONTENIDOS (TEXTOS COMPLETOS HASTA CAP 5)
+       ========================================================= */
+    const CHAPTERS_DATA = [
+      {
+        id: 0,
+        header: "Prólogo",
+        title: "El comienzo",
+        text: "Hola mi nuv, hoy es un dia especial, un dia como hoy, 23 de octubre hace 18 años nacio alguien, una personita que se volveria la persona mas especial e importante de mi vida, jssjsj exacto, hablo de ti, altair.",
+        unlocked: true
+      },
+      {
+        id: 1,
+        header: "Capítulo 1",
+        title: "Cuando nos conocimos",
+        text: "era un dia de septiembre del 2025, nos conocimos de manera increiblemente random se podria decir AKJAAJ, tu andabas haciendo live, ese dia andaba super aburrido y buscaba lives para interactuar, entonces me tope con el tuyo, me quede un rato a ver como era, y me agrado por el hecho que me parecistes divertida, interactuamos literalmente un poco, pero luego te fuistes porque te hablo en el que ese entonces era tu \"esposo\" como le decias JKAJDFAJK, Asi paso un tiempo mas (Aproximadamante un dias mas) te vi en live, interactuamos un poco mas, asi varias veces hasta que subi al podio por primera vez, tu siempre me has parecido una chica divertida, increible y algo pendeja sin afan de ofender querida KJIASnDA",
+        unlocked: false
+      },
+      {
+        id: 2,
+        header: "Capítulo 2",
+        title: "Amistad",
+        text: "Luego de todo eso empezamos a hacer rachas, comenzamos a hablar más, nos empezamos a llevar muchísimo mejor, la verdad siempre la he pasado bien contigo, pasamos poco a poco tiempo juntos, jugamos, nos divertimos, comencé a entenderte un poco más al pasar el tiempo me comenzaste a tener más confianza, hasta llegar al punto de ser tu mejor amigo.",
+        unlocked: false
+      },
+      {
+        id: 3,
+        header: "Capítulo 3",
+        title: "Mejores amigos",
+        text: "Ha pasado un par de semanas desde ese día, han pasado muchas cosas, como el fin de tu relación con creo que era Yi-son, me dolió mucho verte así, solo quieres amor pero te dieron estrés, tristeza y preocupación por ese animal, me alegro mucho cuando por fin lo dejaste y estabas un poco más liberada, sé que cargas con muchas cosas, con muchos problemas, problemas personales, familiares, problemas propios, incluso cargando con problemas de personas externas, esa es una de las cosas que más amo de ti, que a pesar de todo siempre buscas cómo ayudar a los demás, pero eso también me preocupa, que ayudes a todos, sin antes ayudarte a ti, sin antes sentirte bien, me preocupas mucho, mi cielo, espero de verdad que te mejores y por fin puedas estar más tranquila.",
+        unlocked: false
+      },
+      {
+        id: 4,
+        header: "Capítulo 4",
+        title: "Tu esfuerzo",
+        text: "Otra cosa que más amo de ti, es que a pesar de que te cuesta expresarte, que te cuesta demostrar el amor/cariño que sientes hacia x persona, lo intentas, al menos conmigo, no sabes lo feliz que estuve cuando me mandabas esos mensajes largos dándome a entender cuánto te importo, el amor/cariño que me tienes, lo mucho que te divierte estando conmigo, que entras triste y sales riendo, que no te gusta hacer llamadas o mandar mensaje de voz, pero aún así lo mandas, eres una persona maravillosa, cariño, claro que quiero que mejores como persona, que te sientas a gusto contigo misma, yo estoy para ti, confío en ti, te apoyo independientemente de las circunstancias, sé que algún día estarás cómoda contigo misma, pero nunca cambies la linda persona que eres.",
+        unlocked: false
+      },
+      {
+        id: 5,
+        header: "Capítulo 5",
+        title: "(sin título)",
+        text: "Cariño, un día como este, un 23 de octubre hace 18 años, nació alguien muy especial para mí, nació mi persona favorita, la chica y mujer que más amo en esta vida, sí, hablo de ti, Feliz cumpleaños querida, feliz 18 años de edad, oficialmente ya eres mayor de edad jsjsjs, espero que de verdad te la pases súper bien el día de hoy, que te diviertas muchísimo, pásatela bien con tu familia, especialmente con tu hermana, come, diviértete, haz todo lo que quieras, hoy es tu día. Agradezco mucho haberme convertido en una pequeña parte de tu vida, espero así sea siempre jsjsjs, Feliz cumpleaños a ti, ya queremos pastel, ya queremos pastel KAJADJ, ay dios, de verdad, te amo mucho, demasiado, espero seguir estando en tu vida, y estar a tu lado viéndote crecer, superar obstáculos, avanzar hacia la siguiente etapa de tu vida, ser profesional y hacer todo lo que siempre has querido, ya eres toda una mujerona hecha y derecha, ¿eh? No quiero alargar todo esto de más para evitar aburrirte, te amo, te amo demasiado, mucho más de lo que me amo a mí, deseo de todo corazón que encuentres a personas que te quieran y amen, claro, no tanto como yo porque, este, sí, y ajá dea se ponía celoso (soy ese), feliz cumpleaños por 999 veces jsjsjs, te amo muchísimo, mi Altair.",
+        unlocked: false
+      }
+    ];
+
+    let currentChapterIndex = null;
+    let typingTimeout = null;
+    let isTyping = false;
+    let chapterSpreads = []; 
+    let currentSpreadIndex = 0;
+    let maxUnlockedSpreadIndex = 0; 
+    let skipCurrentTyping = false;
+
+    function isMobileView() {
+      return window.innerWidth <= 768;
+    }
+
+    /* =========================================================
+       AUDIO SINTETIZADO CON WEB AUDIO API
+       ========================================================= */
+    const AudioEngine = {
+      ctx: null,
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          this.ctx = new AudioCtx();
+        }
+      },
+      playClick() {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(200, this.ctx.currentTime + 0.05);
+        gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.05);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.05);
+      },
+      playTypeSound() {
+        if (!this.ctx || Math.random() > 0.4) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(300 + Math.random() * 200, this.ctx.currentTime);
+        gain.gain.setValueAtTime(0.015, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.03);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.03);
+      },
+      playUnlockSound() {
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, now);
+        osc.frequency.exponentialRampToValueAtTime(880, now + 0.3);
+        gain.gain.setValueAtTime(0.15, now);
+        gain.gain.linearRampToValueAtTime(0.01, now + 0.3);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(now + 0.3);
+      }
+    };
+
+    /* =========================================================
+       SISTEMA DE PANTALLAS Y NAVEGACIÓN
+       ========================================================= */
+    const startScreen = document.getElementById('start-screen');
+    const menuScreen = document.getElementById('menu-screen');
+    const bookScreen = document.getElementById('book-screen');
+    const globalOverlay = document.getElementById('global-overlay');
+
+    function switchScreen(fromScreen, toScreen, callback) {
+      fromScreen.classList.remove('active');
+      fromScreen.classList.add('hidden');
+      setTimeout(() => {
+        toScreen.classList.remove('hidden');
+        toScreen.classList.add('active');
+        if (callback) callback();
+      }, 400);
+    }
+
+    function fadeToBlackTransition(actionBetween) {
+      globalOverlay.classList.add('active');
+      setTimeout(() => {
+        if (actionBetween) actionBetween();
+        setTimeout(() => {
+          globalOverlay.classList.remove('active');
+        }, 300);
+      }, 800);
+    }
+
+    /* =========================================================
+       RENDERIZADO DEL MENÚ DE CAPÍTULOS
+       ========================================================= */
+    const chaptersContainer = document.getElementById('chapters-container');
+
+    function renderChapters() {
+      chaptersContainer.innerHTML = '';
+      CHAPTERS_DATA.forEach((ch, idx) => {
+        const card = document.createElement('div');
+        card.className = `chapter-card ${ch.unlocked ? 'unlocked' : ''}`;
+        card.id = `chapter-card-${idx}`;
+
+        card.innerHTML = `
+          <div class="chapter-info">
+            <span class="chapter-number">${ch.header}</span>
+          </div>
+          <div class="chapter-status-icon">
+            ${ch.unlocked ? '📖' : '🔒'}
+          </div>
+        `;
+
+        if (ch.unlocked) {
+          card.addEventListener('click', () => {
+            AudioEngine.playClick();
+            openChapterBook(idx);
+          });
+        }
+
+        chaptersContainer.appendChild(card);
+      });
+    }
+
+    /* =========================================================
+       PAGINACIÓN LIMPIA POR PALABRAS COMPLETAS
+       ========================================================= */
+    function buildSpreadsForText(fullText) {
+      const words = fullText.split(' ');
+      const mobile = isMobileView();
+      const maxLeftChars = mobile ? 220 : 250;  
+      const maxRightChars = mobile ? 220 : 270; 
+
+      const spreads = [];
+      let wordIdx = 0;
+
+      while (wordIdx < words.length) {
+        let leftPageText = "";
+        while (wordIdx < words.length) {
+          const nextWord = words[wordIdx];
+          const testStr = leftPageText ? leftPageText + " " + nextWord : nextWord;
+          if (testStr.length <= maxLeftChars) {
+            leftPageText = testStr;
+            wordIdx++;
+          } else {
+            break;
+          }
+        }
+
+        let rightPageText = "";
+        while (wordIdx < words.length) {
+          const nextWord = words[wordIdx];
+          const testStr = rightPageText ? rightPageText + " " + nextWord : nextWord;
+          if (testStr.length <= maxRightChars) {
+            rightPageText = testStr;
+            wordIdx++;
+          } else {
+            break;
+          }
+        }
+
+        spreads.push({ left: leftPageText, right: rightPageText });
+      }
+
+      if (spreads.length === 0) {
+        spreads.push({ left: "", right: "" });
+      }
+
+      return spreads;
+    }
+
+    /* =========================================================
+       LÓGICA DEL LIBRO & MÁQUINA DE ESCRIBIR
+       ========================================================= */
+    const bookWrapper = document.getElementById('book-wrapper');
+    const bookCover = document.getElementById('book-cover');
+    const pageLeftHeader = document.getElementById('page-left-header');
+    const pageLeftTitle = document.getElementById('page-left-title');
+    const textLeftElem = document.getElementById('text-left');
+    const textRightElem = document.getElementById('text-right');
+    const cursorLeft = document.getElementById('cursor-left');
+    const cursorRight = document.getElementById('cursor-right');
+    const btnContinue = document.getElementById('btn-continue');
+    const coverTitleText = document.getElementById('cover-title-text');
+    const btnPrev = document.getElementById('btn-prev');
+    const btnNext = document.getElementById('btn-next');
+    const btnNextPageText = document.getElementById('btn-next-page-text');
+    const numLeft = document.getElementById('num-left');
+    const numRight = document.getElementById('num-right');
+    const statusLeft = document.getElementById('reading-status-left');
+    const pageFlipOverlay = document.getElementById('page-flip-overlay');
+    const flipTextContent = document.getElementById('flip-text-content');
+
+    function openChapterBook(chapterIdx) {
+      currentChapterIndex = chapterIdx;
+      const data = CHAPTERS_DATA[chapterIdx];
+
+      coverTitleText.textContent = data.header;
+      pageLeftHeader.textContent = data.header;
+      pageLeftTitle.textContent = data.title;
+      
+      textLeftElem.textContent = '';
+      textRightElem.textContent = '';
+      btnContinue.classList.remove('visible', 'btn-reproducir-final');
+      btnNextPageText.classList.remove('active');
+      cursorLeft.style.display = 'none';
+      cursorRight.style.display = 'none';
+
+      if (currentChapterIndex === 5) {
+        btnContinue.textContent = "Reproducir";
+        btnContinue.id = "btn-play-final";
+        btnContinue.classList.add('btn-reproducir-final');
+      } else {
+        btnContinue.textContent = "Continuar";
+        btnContinue.id = "btn-continue";
+        btnContinue.classList.remove('btn-reproducir-final');
+      }
+
+      bookWrapper.classList.remove('open');
+
+      chapterSpreads = buildSpreadsForText(data.text);
+      currentSpreadIndex = 0;
+      maxUnlockedSpreadIndex = 0;
+
+      switchScreen(menuScreen, bookScreen, () => {
+        bookCover.onclick = (e) => {
+          e.stopPropagation();
+          if (!bookWrapper.classList.contains('open')) {
+            AudioEngine.playClick();
+            
+            bookWrapper.classList.add('open');
+
+            setTimeout(() => {
+              loadAndTypeSpread(currentSpreadIndex, true);
+            }, 1100);
+          }
+        };
+      });
+    }
+
+    function updateNavButtons() {
+      if (currentSpreadIndex > 0) {
+        btnPrev.classList.add('active');
+      } else {
+        btnPrev.classList.remove('active');
+      }
+
+      if (currentSpreadIndex < chapterSpreads.length - 1 && currentSpreadIndex < maxUnlockedSpreadIndex) {
+        btnNext.classList.add('active');
+      } else {
+        btnNext.classList.remove('active');
+      }
+
+      const pageBase = currentSpreadIndex * 2 + 1;
+      numLeft.textContent = `Pág ${pageBase}`;
+      numRight.textContent = `Pág ${pageBase + 1}`;
+    }
+
+    function loadAndTypeSpread(spreadIdx, withTyping = false) {
+      clearTimeout(typingTimeout);
+      isTyping = false;
+      skipCurrentTyping = false;
+
+      const spread = chapterSpreads[spreadIdx];
+      updateNavButtons();
+
+      if (withTyping) {
+        statusLeft.textContent = "Leyendo...";
+        btnContinue.classList.remove('visible');
+        btnNextPageText.classList.remove('active');
+        textLeftElem.textContent = '';
+        textRightElem.textContent = '';
+        
+        startTypingFullSpread(spread);
+      } else {
+        textLeftElem.textContent = spread.left;
+        textRightElem.textContent = spread.right;
+        statusLeft.textContent = "";
+        cursorLeft.style.display = 'none';
+        cursorRight.style.display = 'none';
+
+        if (spreadIdx === chapterSpreads.length - 1) {
+          btnContinue.classList.add('visible');
+          btnNextPageText.classList.remove('active');
+        } else {
+          btnContinue.classList.remove('visible');
+          if (spreadIdx < maxUnlockedSpreadIndex) {
+            btnNextPageText.classList.add('active');
+          }
+        }
+      }
+    }
+
+    function startTypingFullSpread(spread) {
+      isTyping = true;
+      skipCurrentTyping = false;
+
+      let lText = spread.left;
+      let rText = spread.right;
+      
+      let lIdx = 0;
+      let rIdx = 0;
+
+      cursorLeft.style.display = 'inline-block';
+      cursorRight.style.display = 'none';
+
+      function typeStep() {
+        if (skipCurrentTyping) {
+          textLeftElem.textContent = lText;
+          textRightElem.textContent = rText;
+          finishTypingComplete();
+          return;
+        }
+
+        if (lIdx < lText.length) {
+          textLeftElem.textContent += lText.charAt(lIdx);
+          lIdx++;
+          AudioEngine.playTypeSound();
+          let delay = 25;
+          if (lText.charAt(lIdx - 1) === ',' || lText.charAt(lIdx - 1) === '.') delay = 140;
+          typingTimeout = setTimeout(typeStep, delay);
+        } else if (lIdx === lText.length && rText.length > 0 && cursorRight.style.display === 'none') {
+          cursorLeft.style.display = 'none';
+          cursorRight.style.display = 'inline-block';
+          typingTimeout = setTimeout(typeStep, 250);
+        } else if (rIdx < rText.length) {
+          textRightElem.textContent += rText.charAt(rIdx);
+          rIdx++;
+          AudioEngine.playTypeSound();
+          let delay = 25;
+          if (rText.charAt(rIdx - 1) === ',' || rText.charAt(rIdx - 1) === '.') delay = 140;
+          typingTimeout = setTimeout(typeStep, delay);
+        } else {
+          finishTypingComplete();
+        }
+      }
+
+      typeStep();
+    }
+
+    function finishTypingComplete() {
+      isTyping = false;
+      cursorLeft.style.display = 'none';
+      cursorRight.style.display = 'none';
+      statusLeft.textContent = "";
+      
+      if (currentSpreadIndex > maxUnlockedSpreadIndex) {
+        maxUnlockedSpreadIndex = currentSpreadIndex;
+      }
+      updateNavButtons();
+
+      if (currentSpreadIndex === chapterSpreads.length - 1) {
+        btnContinue.classList.add('visible');
+        btnNextPageText.classList.remove('active');
+      } else {
+        btnNextPageText.classList.add('active');
+      }
+    }
+
+    document.getElementById('book-spread').addEventListener('click', () => {
+      if (isTyping) {
+        skipCurrentTyping = true;
+      }
+    });
+
+    function executePageFlipAnimation(callback) {
+      const spread = chapterSpreads[currentSpreadIndex];
+      flipTextContent.textContent = spread.right || spread.left;
+      pageFlipOverlay.classList.add('flipping');
+
+      setTimeout(() => {
+        pageFlipOverlay.classList.remove('flipping');
+        if (callback) callback();
+      }, 900);
+    }
+
+    btnNextPageText.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentSpreadIndex < chapterSpreads.length - 1 && !isTyping) {
+        AudioEngine.playClick();
+        executePageFlipAnimation(() => {
+          currentSpreadIndex++;
+          loadAndTypeSpread(currentSpreadIndex, currentSpreadIndex > maxUnlockedSpreadIndex);
+        });
+      }
+    });
+
+    btnPrev.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentSpreadIndex > 0 && !isTyping) {
+        AudioEngine.playClick();
+        currentSpreadIndex--;
+        loadAndTypeSpread(currentSpreadIndex, false);
+      }
+    });
+
+    btnNext.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (currentSpreadIndex < chapterSpreads.length - 1 && currentSpreadIndex < maxUnlockedSpreadIndex && !isTyping) {
+        AudioEngine.playClick();
+        currentSpreadIndex++;
+        loadAndTypeSpread(currentSpreadIndex, false);
+      }
+    });
+
+    /* =========================================================
+       LÓGICA DE CONTINUAR / REPRODUCIR & SECUENCIA CINEMÁTICA
+       ========================================================= */
+    btnContinue.addEventListener('click', (e) => {
+      e.stopPropagation();
+      AudioEngine.playClick();
+      
+      // Manejo cinemático para el Capítulo 5 (Botón Reproducir)
+      if (currentChapterIndex === 5) {
+        bookWrapper.classList.remove('open');
+
+        setTimeout(() => {
+          fadeToBlackTransition(() => {
+            bookScreen.classList.remove('active');
+            bookScreen.classList.add('hidden');
+
+            const cinematicContainer = document.getElementById('final-cinematic-container');
+            const finalVideo = document.getElementById('final-video');
+            const finalQuote = document.getElementById('final-quote');
+            const finalGreeting = document.getElementById('final-greeting');
+
+            cinematicContainer.classList.add('active');
+            finalVideo.muted = false;
+            finalVideo.currentTime = 0;
+            finalVideo.play().then(() => {
+              finalQuote.classList.add('active');
+            }).catch(err => {
+              console.log("Reproducción automática con audio diferida por políticas del navegador:", err);
+            });
+
+            finalVideo.onended = () => {
+              finalQuote.classList.remove('active');
+              finalVideo.style.opacity = '0';
+              finalVideo.style.transition = 'opacity 1s ease';
+
+              setTimeout(() => {
+                finalGreeting.classList.add('active');
+
+                setTimeout(() => {
+                  finalGreeting.classList.remove('active');
+
+                  setTimeout(() => {
+                    cinematicContainer.classList.remove('active');
+                    finalVideo.style.opacity = '1';
+                    
+                    showStartVideo();
+                    startScreen.classList.remove('hidden');
+                    startScreen.classList.add('active');
+                  }, 1000);
+                }, 3500); // 3.5 segundos de visualización de saludo
+              }, 1000);
+            };
+          });
+        }, 1000);
+
+        return;
+      }
+
+      bookWrapper.classList.remove('open');
+
+      const nextChapterIdx = currentChapterIndex + 1;
+      const shouldUnlockNext = nextChapterIdx < CHAPTERS_DATA.length && !CHAPTERS_DATA[nextChapterIdx].unlocked;
+
+      setTimeout(() => {
+        fadeToBlackTransition(() => {
+          bookScreen.classList.remove('active');
+          bookScreen.classList.add('hidden');
+          menuScreen.classList.remove('hidden');
+          menuScreen.classList.add('active');
+
+          if (shouldUnlockNext) {
+            CHAPTERS_DATA[nextChapterIdx].unlocked = true;
+            renderChapters();
+
+            setTimeout(() => {
+              const nextCard = document.getElementById(`chapter-card-${nextChapterIdx}`);
+              if (nextCard) {
+                AudioEngine.playUnlockSound();
+                nextCard.classList.add('unlocking');
+              }
+            }, 400);
+          } else {
+            renderChapters();
+          }
+        });
+      }, 1000);
+    });
+
+    /* =========================================================
+       NAVEGACIÓN DE PANTALLAS
+       ========================================================= */
+    document.getElementById('btn-start').addEventListener('click', () => {
+      AudioEngine.init();
+      AudioEngine.playClick();
+
+      showMenuVideo();
+
+      switchScreen(startScreen, menuScreen, () => {
+        renderChapters();
+      });
+    });
+
+    document.getElementById('btn-back-to-start').addEventListener('click', () => {
+      AudioEngine.playClick();
+
+      showStartVideo();
+
+      switchScreen(menuScreen, startScreen);
+    });
+
+    /* =========================================================
+       FONDO CANVAS TRANSPARENTE
+       ========================================================= */
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      initStars();
+    });
+
+    class Star {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 1.8 + 0.2;
+        this.alpha = Math.random();
+        this.speed = Math.random() * 0.01 + 0.003;
+        this.color = Math.random() > 0.3 ? '#38bdf8' : '#ffffff';
+      }
+
+      update() {
+        this.alpha += this.speed;
+        if (this.alpha > 1 || this.alpha < 0) {
+          this.speed = -this.speed;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.abs(this.alpha);
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    let stars = [];
+    function initStars() {
+      stars = [];
+      const count = Math.floor((width * height) / 3000);
+      for (let i = 0; i < count; i++) {
+        stars.push(new Star());
+      }
+    }
+
+    function animateBg() {
+      ctx.clearRect(0, 0, width, height);
+
+      stars.forEach((star) => {
+        star.update();
+        star.draw();
+      });
+
+      requestAnimationFrame(animateBg);
+    }
+
+    initStars();
+    animateBg();
+  </script>
+</body>
+</html>
